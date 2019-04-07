@@ -1,4 +1,4 @@
-# Food-Zone
+# Food Zone
 ## Inspiration
 We were inspired by the courage it takes to be a homeless person constantly in a battle against hunger and wanted to alleviate some of their pain by creating an iOS app. Smartphones are essential to modern life and sources claim that 80% of homeless people have phones.
 
