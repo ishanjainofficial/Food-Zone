@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>876032675803-1cib6luapd0g5isib3iklfpm1km798mt.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.876032675803-1cib6luapd0g5isib3iklfpm1km798mt</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDuqIIZyiGVmGANQ_jj64B3W0gRgFuYT40</string>
+	<key>GCM_SENDER_ID</key>
+	<string>876032675803</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.hello.Food-Zone</string>
+	<key>PROJECT_ID</key>
+	<string>food-zone-ia</string>
+	<key>STORAGE_BUCKET</key>
+	<string>food-zone-ia.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:876032675803:ios:2126f5128e9d1bb2</string>
+	<key>DATABASE_URL</key>
+	<string>https://food-zone-ia.firebaseio.com</string>
+</dict>
+</plist>
