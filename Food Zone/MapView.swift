@@ -19,6 +19,12 @@ class MapView: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, U
 
     var locationManager : CLLocationManager!
     
+    var annotation: MKPointAnnotation!
+    
+    var annotationText: String?
+    
+    var i = 0
+    
     let apiURL = ApiURL()
     
     var center: CLLocationCoordinate2D!
@@ -38,6 +44,8 @@ class MapView: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, U
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
+        
+        mapView.delegate = self
         
         if (CLLocationManager.locationServicesEnabled()){
             locationManager = CLLocationManager()
@@ -62,9 +70,26 @@ class MapView: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, U
         present(searchController, animated: true, completion: nil)
     }
     
+    
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        self.performSegue(withIdentifier: "toDiscussion", sender: Any?.self)
+        
+        if let annotationTitle = view.annotation?.title {
+           self.annotationText = annotationTitle!
+
+            performSegue(withIdentifier: "toDiscussion", sender: self)
+            
+        }
+
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+        let discussionViewController = segue.destination as! DiscussionView
+        discussionViewController.restaurantName = annotationText
+    }
+    
+   
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         UIApplication.shared.beginIgnoringInteractionEvents()
         
@@ -103,10 +128,10 @@ class MapView: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, U
                 let longitude = response?.boundingRegion.center.longitude
                 
                 
-                let annotation = MKPointAnnotation()
-                annotation.title = searchBar.text
-                annotation.coordinate = CLLocationCoordinate2DMake(latitude!, longitude!)
-                self.mapView.addAnnotation(annotation)
+                self.annotation = MKPointAnnotation()
+                self.annotation.title = searchBar.text
+                self.annotation.coordinate = CLLocationCoordinate2DMake(latitude!, longitude!)
+                self.mapView.addAnnotation(self.annotation)
                 
                 
             }
@@ -132,7 +157,6 @@ class MapView: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, U
             let finalLON:String = lonInfo.stringValue
             
             let finalCoordinates = "\(finalLAT), \(finalLON)"
-            print(finalCoordinates)
             
             self.ref.child("locations").child(userID!).setValue(["coordinate": finalCoordinates])
             

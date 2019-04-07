@@ -18,11 +18,9 @@ struct FoursquareService {
             // Get user value
             let value = snapshot.value as? NSDictionary
             if let coords = value?["coordinate"] as? String? ?? "" {
-                restaurantsURL = baseURL + "/v2/venues/explore?ll=\(coords.replacingOccurrences(of: " ", with: ""))&section=food&oauth_token=NKRP0KY5ZDZIBMCU3TZS4BMP4ZMIQZBQPLBTCPXSIGPWFJ1L&v=20160228"
-                print(restaurantsURL)
+                restaurantsURL = baseURL + "/v2/venues/explore?ll=\(coords.replacingOccurrences(of: " ", with: ""))&section=food&client_id=00CQC155E3PAFVMGWSAZ4EMVAG4YBUEO4ASLZDDNLCN4Z5KN&client_secret=5EYKYUX5USJTZSPXDNXFERKACPQBJHAK212G0BH4T5QE1XJF&v=20160228"
                 
                 if let foursquareURL = NSURL(string: restaurantsURL) {
-                    print(foursquareURL)
                     
                     let networkOperation = NetworkOperation(url: foursquareURL)
                     

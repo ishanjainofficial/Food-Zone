@@ -9,11 +9,14 @@ class DiscussionView: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var sendButton: UIButton!
     
-    var restaurantName = "Taco Bell"
     var place: String?
     
+    var restaurantName: String?
     
-    let mapView = MapView()
+    var mapView: MapView!
+    
+    var text: String?
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return messages.count
@@ -33,7 +36,10 @@ class DiscussionView: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var textField: UITextField!
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        
+        self.mapView = MapView()
         
         sendButton.isEnabled = false
         sendButton.tintColor = UIColor.gray
@@ -45,15 +51,43 @@ class DiscussionView: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         self.place = mapView.place
         
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         observeMessages()
         
         
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        messages.removeAll()
+    }
+    
+    init(text: String?){
+        
+        if let optionalText = text{
+            
+            
+            self.restaurantName = optionalText
+            
+        }
+        super.init(nibName: nil, bundle: nil)
+        
+       
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+ 
     var messages = [Message]()
     
     func observeMessages(){
-        let ref = Database.database().reference().child(restaurantName).child("messages")
+        let restaurantTitle = self.restaurantName
+
+        let ref = Database.database().reference().child(restaurantTitle!).child("messages")
         
         ref.observe(.childAdded, with: { (snapshot) in
             
@@ -71,18 +105,20 @@ class DiscussionView: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     @IBAction func textDidChange(_ sender: Any) {
-        if textField.text!.count == 0 {
+        if textField.text?.count == 0 {
             sendButton.isEnabled = false
             sendButton.tintColor = UIColor.gray
-        }else if textField.text != nil {
+        }else if textField.text?.count != 0 {
             sendButton.isEnabled = true
             sendButton.tintColor = UIColor.blue
         }
     }
     
     @IBAction func handleSend(_ sender: Any) {
-        
-        let ref = Database.database().reference().child(restaurantName).child("messages")
+        sendButton.isEnabled = false
+        sendButton.tintColor = UIColor.gray
+        let restaurantTitle = self.restaurantName
+        let ref = Database.database().reference().child(restaurantTitle!).child("messages")
         let childRef = ref.childByAutoId()
         //current date
         let date = Date()
@@ -93,6 +129,7 @@ class DiscussionView: UIViewController, UITableViewDelegate, UITableViewDataSour
         let values:[String:Any] = ["text":textField.text!, "timeStamp":formattedDate]
         childRef.updateChildValues(values)
         textField.text = ""
+        
     }
     
     
